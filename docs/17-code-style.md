@@ -9,9 +9,12 @@
     - [`goimports`](#goimports)
   - [Effective Go: The Style Guide](#effective-go-the-style-guide)
     - [Key Highlights from Effective Go](#key-highlights-from-effective-go)
+  - [Code Comments: The Go Way](#code-comments-the-go-way)
   - [Linting: Beyond Formatting](#linting-beyond-formatting)
     - [What is a Linter?](#what-is-a-linter)
     - [The Standard Linter: `golangci-lint`](#the-standard-linter-golangci-lint)
+  - [An Opinionated `golangci.yml`](#an-opinionated-golangciyml)
+  - [Common Style Gotchas](#common-style-gotchas)
   - [Best Practices for Style and Linting](#best-practices-for-style-and-linting)
 
 ## The Go Philosophy of Code Style
@@ -84,6 +87,25 @@ It covers naming, control structures, concurrency patterns, error handling, and 
 -   **Line Length:** Go has no official line length limit. Let `gofmt` handle it. Readable code is more important than fitting within an arbitrary character count.
 -   **Naked Returns:** Avoid using "naked" returns (a `return` statement without arguments in a function with named return values) except in the shortest of functions. They can harm readability.
 
+## Code Comments: The Go Way
+
+Go has a specific commenting style that is enforced by convention and tooling.
+
+- **Package Comments:** Every package should have a package comment, a comment preceding the `package` clause. For multi-file packages, the package comment only needs to be in one file.
+  ```go
+  // Package sort provides primitives for sorting slices and user-defined collections.
+  package sort
+  ```
+- **Documenting Exports:** Every exported name—variable, constant, function, or struct—should have a doc comment. The comment should be a full sentence and start with the name of the thing it's describing.
+  ```go
+  // Regexp is a compiled representation of a regular expression.
+  // A Regexp is safe for concurrent use by multiple goroutines.
+  type Regexp struct {
+      ...
+  }
+  ```
+- **Use `//` not `/* */`:** Block comments (`/* */`) are rarely used in Go. Stick to `//` for all comments.
+
 ## Linting: Beyond Formatting
 
 Formatting ensures your code looks right. Linting ensures your code *is* right.
@@ -155,6 +177,69 @@ issues:
 golangci-lint run ./...
 ```
 This should be a standard part of your CI/CD pipeline.
+
+## An Opinionated `golangci.yml`
+
+A good starting point for a project configuration file (`.golangci.yml`) is to enable the default linters plus a few other high-value ones.
+
+```yaml
+run:
+  timeout: 3m
+
+linters:
+  enable:
+    # --- Default linters ---
+    - errcheck      # Checks for unchecked errors. A must-have.
+    - govet         # Analyzes code for suspicious constructs.
+    - staticcheck   # Huge collection of powerful static analysis checks.
+    - unused        # Checks for unused code.
+    # --- Recommended extras ---
+    - goimports     # Enforces `goimports` formatting.
+    - revive        # A faster, more configurable replacement for golint.
+    - ineffassign   # Detects when assignments to variables are not used.
+    - dogsled       # Finds redundant assignments.
+    - goconst       # Finds repeated strings that could be constants.
+    - gocritic      # Provides various checks for style, performance, etc.
+    - unconvert     # Removes unnecessary type conversions.
+
+linters-settings:
+  gocritic:
+    # Enable all diagnostic checks. These are usually the most valuable.
+    enabled-tags:
+      - diagnostic
+
+issues:
+  # Don't fail the build for new issues in generated code or tests.
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - funlen    # Don't complain about long test functions.
+        - goconst   # Test data often has repeated strings.
+    - path: .*/zz_generated.*\.go
+      linters:
+        - all
+```
+
+**Running the Linter:**
+```bash
+# Install or update
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+# Run it
+golangci-lint run ./...
+```
+
+## Common Style Gotchas
+
+- **Error Strings:** Error strings should not be capitalized or end with punctuation. They are often joined with other context.
+  ```go
+  // YES
+  return fmt.Errorf("something bad happened")
+  
+  // NO
+  return fmt.Errorf("Something bad happened.")
+  ```
+- **Handler Naming:** HTTP handler types should be named `someHandler`, not `SomeHandler`. They are often not exported. The function that returns the handler (`NewSomeHandler`) is the exported part.
+- **Variable Declaration:** Use `:=` for initialization when possible to keep code concise. Use `var` only when you need to declare a variable without initializing it to its zero value.
 
 ## Best Practices for Style and Linting
 
