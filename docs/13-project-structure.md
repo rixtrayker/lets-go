@@ -1,29 +1,45 @@
 # Go Project Structure
 
 ## Table of Contents
-- [The Philosophy of Project Layout](#the-philosophy-of-project-layout)
-- [A Simple, Flat Structure (The Default)](#a-simple-flat-structure-the-default)
-- [The Standard Go Project Layout](#the-standard-go-project-layout)
-  - [Top-Level Directories](#top-level-directories)
-  - [The `/cmd` Directory](#the-cmd-directory)
-  - [The `/internal` Directory](#the-internal-directory)
-  - [The `/pkg` Directory](#the-pkg-directory)
-- [Domain-Driven Layout](#domain-driven-layout)
-- [Putting It All Together: A Sample Web Service](#putting-it-all-together-a-sample-web-service)
-- [Project Structure Best Practices](#project-structure-best-practices)
+- [Go Project Structure](#go-project-structure)
+  - [Table of Contents](#table-of-contents)
+  - [The Philosophy of Project Layout](#the-philosophy-of-project-layout)
+  - [Decision Flowchart: Which Structure to Use?](#decision-flowchart-which-structure-to-use)
+  - [Level 1: The Simple, Flat Structure](#level-1-the-simple-flat-structure)
+  - [Level 2: The Standard Go Project Layout](#level-2-the-standard-go-project-layout)
+    - [The `/cmd` Directory](#the-cmd-directory)
+    - [The `/internal` Directory](#the-internal-directory)
+    - [The `/pkg` Directory: A Word of Caution](#the-pkg-directory-a-word-of-caution)
+  - [Level 3: Domain-Driven Layout](#level-3-domain-driven-layout)
+  - [Packages: Layers vs. Features](#packages-layers-vs-features)
+  - [A Recommended Structure for a Web Service](#a-recommended-structure-for-a-web-service)
+  - [Project Structure Best Practices](#project-structure-best-practices)
 
 ## The Philosophy of Project Layout
 
 Unlike some frameworks that enforce a strict directory structure, Go is more flexible. However, community-developed patterns have emerged to help manage complexity as projects grow.
 
-**Key Principles:**
--   **Start Simple:** Don't create a complex directory structure until you need it. A flat layout is fine for small projects.
--   **Clarity and Intent:** Your project structure should make it easy to find code and understand the purpose of each package.
--   **Enforce Separation:** Use packages to create clear boundaries between different parts of your application. The `internal` directory is a key tool for this.
+-   **Start Simple:** Don't create a complex directory structure until you need it.
+-   **Clarity and Intent:** The structure should make it easy to find code and understand the purpose of each package.
+-   **Enforce Separation:** Use packages and the `internal` directory to create clear boundaries.
 
-## A Simple, Flat Structure (The Default)
+## Decision Flowchart: Which Structure to Use?
 
-For a small application or a single-purpose library, you don't need a complex hierarchy.
+```mermaid
+graph TD
+    A[Start: New Project] --> B{Is it a small CLI or a single microservice?};
+    B -- Yes --> C[Use a Flat Structure.<br/>Keep everything in root.];
+    B -- No --> D{Do you have multiple binaries OR<br/>need to separate public/private code?};
+    D -- Yes --> E[Use the Standard Layout.<br/>Introduce /cmd and /internal.];
+    D -- No --> C;
+    E --> F{Is the internal logic becoming<br/>complex with many concepts?};
+    F -- Yes --> G[Use a Domain-Driven Layout<br/>inside /internal.];
+    F -- No --> E;
+```
+
+## Level 1: The Simple, Flat Structure
+
+For a small application or a single-purpose library, a flat hierarchy is ideal.
 
 ```
 /my-project
@@ -32,109 +48,80 @@ For a small application or a single-purpose library, you don't need a complex hi
 ├── main.go         // Your main application logic.
 ├── handlers.go     // HTTP handlers, if it's a web service.
 ├── handlers_test.go
-├── models.go       // Your data structures.
-└── models_test.go
+└── models.go       // Your data structures.
 ```
+**When to move on:** When the number of files becomes overwhelming or when you need to build multiple binaries from the repository.
 
-**When to Use:**
--   Small CLIs or services.
--   When you're starting a new project.
--   When you have only one main executable and a handful of supporting files.
+## Level 2: The Standard Go Project Layout
 
-**When to Move On:**
--   When you have multiple binaries to build from the same repository.
--   When you want to share some code as a public library (`/pkg`) but keep other parts private (`/internal`).
--   When the number of files in the root becomes overwhelming.
-
-## The Standard Go Project Layout
-
-This is a well-known, but often overused, community standard. It provides a comprehensive structure for larger applications. **Do not use all of these directories.** Pick and choose only the ones you need.
+This is a well-known community standard. Pick and choose only the directories you need.
 
 Reference: [Standard Go Project Layout](https://github.com/golang-standards/project-layout)
 
-### Top-Level Directories
-
--   `/cmd`: Main applications for your project.
--   `/internal`: Private application and library code.
--   `/pkg`: Public library code that's okay to be used by others.
--   `/api`: OpenAPI/Swagger specs, JSON schema files.
--   `/web`: Web assets like templates and static files.
--   `/configs`: Configuration files.
--   `/scripts`: Scripts to perform various build, install, analysis, etc. operations.
-
-Of these, `/cmd`, `/internal`, and `/pkg` are the most important and have special meaning.
-
 ### The `/cmd` Directory
 
-**Purpose:** To house the `main` package for each binary you want to build.
-
-You should not put a lot of code here. The `main.go` file in a `cmd` directory should be a small entrypoint that imports and calls code from `/internal` and `/pkg` to do the actual work.
+**Purpose:** To house the `main` package for each binary you want to build. The `main.go` file here should be a small entrypoint that imports and calls code from `/internal` to do the actual work.
 
 ```
 /cmd
-├── /my-api-server
-│   └── main.go      // main package for the API server
-└── /my-cli-tool
-    └── main.go      // main package for the CLI tool
+├── /my-api-server/main.go
+└── /my-cli-tool/main.go
 ```
 
 ### The `/internal` Directory
 
-**Purpose:** To store all the code that is **not meant to be imported** by other projects.
+**Purpose:** To store all the code that is **not meant to be imported** by other projects. This is a special directory enforced by the Go compiler. The bulk of your application logic—HTTP handlers, business logic, data access—lives here.
 
-This is a special directory enforced by the Go compiler. If another project tries to import a package from your `/internal` directory, the build will fail. This is Go's primary mechanism for enforcing code privacy.
-
-The bulk of your application logic—HTTP handlers, business logic, data access—lives here. You can structure it however you like.
-
-```
-/internal
-├── /api           // Your HTTP handlers and routing.
-├── /database      // Your database connection and query logic.
-├── /domain        // Core business logic and types.
-│   └── /user
-│       ├── user.go
-│       └── repository.go
-├── /config        // Application configuration loading.
-└── /auth          // Authentication and authorization logic.
-```
-
-### The `/pkg` Directory
+### The `/pkg` Directory: A Word of Caution
 
 **Purpose:** To store packages that are safe to be imported and used by external applications.
 
-**Warning:** This is one of the most misunderstood directories. Before putting a package here, ask yourself:
-1.  Is this code generic and useful to other projects?
-2.  Do I want to support and maintain this as a public library?
+**Warning:** This is the most misunderstood directory. Before putting a package here, ask yourself: "Do I intend to support and maintain this as a public, versioned library?" If the answer is no, **it belongs in `/internal`**. Most applications will never need a `/pkg` directory.
 
-If the answer is no, it belongs in `/internal`. Many projects don't need a `/pkg` directory at all. Don't use it as a dumping ground for all your code.
+## Level 3: Domain-Driven Layout
 
-## Domain-Driven Layout
-
-As your `internal` directory grows, a good way to structure it is by business domain or feature. This keeps related code together and makes the system easier to understand.
+As your `internal` directory grows, structure it by business domain or feature. This keeps related code together and makes the system easier to understand.
 
 ```
 /internal/
-├── platform/         # Framework-level code.
-│   ├── database/
-│   └── server/
+├── platform/         # Cross-cutting concerns, framework-level code.
+│   ├── database/     # Database connection, migrations.
+│   └── server/       # HTTP server setup, routing, middleware.
 ├── user/             # "User" domain.
-│   ├── user.go       # The User model.
-│   ├── repository.go # The interface for user storage.
-│   ├── service.go    # Business logic for users.
-│   └── handler.go    # HTTP handlers for users.
+│   ├── user.go       # The User model and business logic.
+│   ├── repository.go # The interface for user storage (e.g., UserRepository).
+│   └── handler.go    # HTTP handlers for /users endpoints.
 ├── payment/          # "Payment" domain.
 │   ├── payment.go
 │   ├── repository.go
 │   └── handler.go
-└── auth/             # "Auth" domain.
-    └── ...
+└── auth/             # "Auth" domain, which depends on User.
+    └── token.go
 ```
 
-This approach groups code by what it *does* rather than by what it *is* (e.g., putting all handlers in one `handlers` package).
+## Packages: Layers vs. Features
 
-## Putting It All Together: A Sample Web Service
+There are two main schools of thought for structuring packages inside `/internal`:
 
-Here is a sensible structure for a medium-sized web service.
+1.  **By Layer (Less Recommended):**
+    ```
+    /internal
+    ├── handlers/
+    ├── models/
+    └── storage/
+    ```
+    This often leads to packages with low cohesion, where unrelated features are grouped together just because they are the same "type" of code. It also creates import cycles and tight coupling.
+
+2.  **By Feature (Recommended):**
+    ```
+    /internal
+    ├── user/
+    ├── product/
+    └── payment/
+    ```
+    This is the domain-driven approach shown above. It is more modular, scalable, and easier to navigate. Each package is self-contained and exposes only what's necessary.
+
+## A Recommended Structure for a Web Service
 
 ```
 /my-awesome-api
@@ -148,18 +135,20 @@ Here is a sensible structure for a medium-sized web service.
 │   └── api/
 │       └── main.go           # Wires everything together and starts the server.
 └── internal/
-    ├── server/
-    │   ├── server.go         # The http.Server setup.
-    │   └── routes.go         # All the API routes, pointing to handlers.
-    ├── auth/
-    │   └── middleware.go     # Auth middleware.
+    ├── platform/
+    │   ├── database/
+    │   │   └── postgres.go   # Logic for connecting to the database.
+    │   └── server/
+    │       ├── server.go     # The http.Server setup.
+    │       └── routes.go     # All the API routes, pointing to handlers.
     ├── user/
-    │   ├── user.go           # The User model and business logic.
+    │   ├── user.go           # The User model.
+    │   ├── service.go        # Business logic.
     │   ├── handler.go        # HTTP handlers for /users endpoints.
-    │   └── store.go          # The user storage implementation.
-    └── platform/
-        └── database/
-            └── postgres.go   # Logic for connecting to the database.
+    │   └── postgres.go       # Implementation of the user repository for Postgres.
+    └── auth/
+        ├── auth.go           # Auth service and logic.
+        └── middleware.go     # Auth middleware for the server.
 ```
 
 ## Project Structure Best Practices
@@ -168,7 +157,7 @@ Here is a sensible structure for a medium-sized web service.
 2.  **Use `/internal` for Your Business Logic:** Protect your implementation details. Most of your code should probably live here.
 3.  **Be Deliberate About `/pkg`:** Don't create a `/pkg` directory unless you intend to share that code as a library for others to import.
 4.  **Keep `main` Packages Small:** The code in `/cmd/app/main.go` should be minimal. It's for setup and wiring, not business logic.
-5.  **Group by Domain/Feature:** As your project grows, structuring by feature (e.g., `/internal/user`) is often clearer than structuring by layer (e.g., `/internal/models`, `/internal/handlers`).
+5.  **Group by Feature, Not Layer:** As your project grows, structuring by feature (e.g., `/internal/user`) is clearer and more scalable than structuring by layer (e.g., `/internal/handlers`).
 
 ---
 
