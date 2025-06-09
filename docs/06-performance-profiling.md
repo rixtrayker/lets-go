@@ -646,6 +646,33 @@ func GetInstance() *ExpensiveResource {
 4. **Avoid reflection**: In hot paths
 5. **Cache computations**: Store expensive results
 
+## What's Next
+
+To deepen your knowledge of performance and profiling in Go, explore these resources:
+
+1. **Official Documentation**
+   - [Go Performance Profiling](https://go.dev/doc/diagnostics)
+   - [Go Blog: Profiling Go Programs](https://go.dev/blog/pprof)
+   - [Go Memory Model](https://go.dev/ref/mem)
+
+2. **Books**
+   - "High Performance Go" by Dave Cheney (workshop)
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+
+3. **Articles & Blog Posts**
+   - [Profiling Go Programs](https://blog.golang.org/profiling-go-programs)
+   - [Go Performance Optimization](https://www.ardanlabs.com/blog/2014/10/go-performance-optimizations.html)
+
+4. **Practice & Tools**
+   - [pprof Tool](https://github.com/google/pprof)
+   - [Go by Example: Benchmarking](https://gobyexample.com/testing-and-benchmarking)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Garbage Collection Tuning
+   - Memory and CPU Profiling
+   - Benchmarking Best Practices
+
 ---
 
 Next: [Interfaces & Composition](07-interfaces-composition.md) 

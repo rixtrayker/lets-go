@@ -311,6 +311,33 @@ A: Go uses implicit interface implementation. A type implements an interface by 
 Q: What are zero values and why are they important?
 A: Zero values are default values for types when no value is specified. They help avoid null pointer issues.
 
+## What's Next
+
+To deepen your understanding of Go's data types and structures, here are recommended resources:
+
+1. **Official Documentation**
+   - [Go Data Structures](https://go.dev/doc/effective_go#data)
+   - [Go Type System](https://go.dev/ref/spec#Types)
+
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Go in Action" by William Kennedy
+
+3. **Articles & Blog Posts**
+   - [Understanding Go's Type System](https://blog.golang.org/gos-declaration-syntax)
+   - [Go Data Structures: Implementing Binary Search Tree](https://flaviocopes.com/golang-data-structure-binary-search-tree/)
+
+4. **Practice & Tools**
+   - [Go by Example](https://gobyexample.com/)
+   - [Go Tour](https://tour.golang.org/)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Generics in Go
+   - Interface Design
+   - Type Embedding and Composition
+   - Memory Optimization with Data Structures
+
 ---
 
 Next: [Functions & Methods](03-functions-methods.md)

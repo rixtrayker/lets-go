@@ -1,22 +1,25 @@
 # Design Patterns in Go
 
 ## Table of Contents
-- [The Go Philosophy on Design Patterns](#the-go-philosophy-on-design-patterns)
-- [Creational Patterns](#creational-patterns)
-  - [The Factory Pattern](#the-factory-pattern)
-  - [The Builder Pattern](#the-builder-pattern)
-  - [The Singleton Pattern](#the-singleton-pattern)
-- [Structural Patterns](#structural-patterns)
-  - [The Decorator Pattern](#the-decorator-pattern)
-  - [The Adapter Pattern](#the-adapter-pattern)
-- [Behavioral Patterns](#behavioral-patterns)
-  - [The Strategy Pattern](#the-strategy-pattern)
-  - [The Observer Pattern](#the-observer-pattern)
-- [Go's Native Patterns: Concurrency](#gos-native-patterns-concurrency)
-  - [Worker Pool](#worker-pool)
-  - [Fan-out / Fan-in](#fan-out--fan-in)
-  - [Pipeline](#pipeline)
-- [Best Practices for Patterns in Go](#best-practices-for-patterns-in-go)
+- [Design Patterns in Go](#design-patterns-in-go)
+  - [Table of Contents](#table-of-contents)
+  - [The Go Philosophy on Design Patterns](#the-go-philosophy-on-design-patterns)
+  - [Creational Patterns](#creational-patterns)
+    - [The Factory Pattern](#the-factory-pattern)
+    - [The Builder Pattern](#the-builder-pattern)
+    - [The Singleton Pattern](#the-singleton-pattern)
+  - [Structural Patterns](#structural-patterns)
+    - [The Decorator Pattern](#the-decorator-pattern)
+    - [The Adapter Pattern](#the-adapter-pattern)
+  - [Behavioral Patterns](#behavioral-patterns)
+    - [The Strategy Pattern](#the-strategy-pattern)
+    - [The Observer Pattern](#the-observer-pattern)
+  - [Go's Native Patterns: Concurrency](#gos-native-patterns-concurrency)
+    - [Worker Pool](#worker-pool)
+    - [Fan-out / Fan-in](#fan-out--fan-in)
+    - [Pipeline](#pipeline)
+  - [Best Practices for Patterns in Go](#best-practices-for-patterns-in-go)
+  - [What's Next](#whats-next)
 
 ## The Go Philosophy on Design Patterns
 
@@ -385,6 +388,31 @@ See `04-concurrency-fundamentals.md` for a detailed example.
 3.  **Think Concurrently:** Before reaching for a traditional pattern, consider if channels and goroutines can solve the problem more idiomatically. The Observer pattern, for example, is often better implemented with channels.
 4.  **Avoid a `/patterns` Package:** Don't centralize your pattern implementations. Integrate them naturally where they are needed in your application's architecture.
 5.  **Understand the Trade-offs:** Patterns can add complexity. Ensure the flexibility you gain is worth the added code.
+
+## What's Next
+
+To further explore design patterns in Go, check out these resources:
+
+1. **Official Documentation**
+   - [Go Blog: Design Patterns in Go](https://go.dev/blog/pipelines)
+   - [Effective Go](https://go.dev/doc/effective_go)
+
+2. **Books**
+   - "Go Design Patterns" by Mario Castro Contreras
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+
+3. **Articles & Blog Posts**
+   - [Go Patterns](https://github.com/tmrts/go-patterns)
+   - [GoF Patterns in Go](https://refactoring.guru/design-patterns/go)
+
+4. **Practice & Tools**
+   - [Go by Example](https://gobyexample.com/)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Idiomatic Go Patterns
+   - Concurrency Patterns
+   - SOLID Principles in Go
 
 ---
 

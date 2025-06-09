@@ -16,6 +16,7 @@
   - [Interface Best Practices](#interface-best-practices)
   - [The Empty Interface: `any`](#the-empty-interface-any)
   - [Key Takeaways](#key-takeaways)
+  - [What's Next](#whats-next)
 
 ## The Philosophy of Interfaces in Go
 
@@ -315,6 +316,31 @@ func process(v any) {
 3.  **Favor small, focused interfaces** over large, monolithic ones.
 4.  **Use struct embedding for composition**, not inheritance.
 5.  **Only introduce an interface when you need an abstraction** for multiple concrete types.
+
+## What's Next
+
+To further your understanding of interfaces and composition in Go, here are some recommended resources:
+
+1. **Official Documentation**
+   - [Effective Go: Interfaces](https://go.dev/doc/effective_go#interfaces)
+   - [Go Blog: The Laws of Reflection](https://go.dev/blog/laws-of-reflection)
+
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Go in Action" by William Kennedy
+
+3. **Articles & Blog Posts**
+   - [Go Interface Best Practices](https://medium.com/@matryer/idiomatic-go-testing-using-interfaces-and-test-helpers-1d27d1c7bede)
+   - [Go: Interface Pollution](https://dave.cheney.net/2016/08/20/solid-go-design)
+
+4. **Practice & Tools**
+   - [Go by Example: Interfaces](https://gobyexample.com/interfaces)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Interface Segregation Principle
+   - Dependency Injection
+   - Mocking and Testing with Interfaces
 
 ---
 

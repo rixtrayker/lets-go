@@ -16,6 +16,7 @@
   - [Advanced Error Handling Techniques](#advanced-error-handling-techniques)
     - [Handling Panics](#handling-panics)
   - [Best Practices for Error Handling](#best-practices-for-error-handling)
+  - [What's Next](#whats-next)
 
 ## The Go Philosophy of Error Handling
 
@@ -300,6 +301,32 @@ func recoverMiddleware(next http.Handler) http.Handler {
 5.  **Use Custom Error Types for Richer Information:** Use `errors.As` to access the specific error type.
 6.  **Handle Errors at the Right Level:** Don't log and return an error. The caller should decide whether to log it, retry, or return it further up the stack.
 7.  **Keep It Simple:** Often, a simple `if err != nil` check is all you need. Don't over-engineer your error handling.
+
+## What's Next
+
+To further your understanding of error handling in Go, here are some recommended resources:
+
+1. **Official Documentation**
+   - [Effective Go: Error Handling](https://go.dev/doc/effective_go#errors)
+   - [Go Blog: Error Handling and Go](https://go.dev/blog/error-handling-and-go)
+
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Go in Action" by William Kennedy
+
+3. **Articles & Blog Posts**
+   - [Error Handling Patterns in Go](https://dave.cheney.net/2014/12/24/inspecting-errors)
+   - [Go 1.13 Error Wrapping](https://blog.golang.org/go1.13-errors)
+
+4. **Practice & Tools**
+   - [Go by Example: Errors](https://gobyexample.com/errors)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Error Wrapping and Unwrapping
+   - Custom Error Types
+   - Error Handling in Concurrency
+   - Logging and Observability
 
 ---
 

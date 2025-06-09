@@ -1,18 +1,24 @@
 # Reflection & Generics in Go
 
 ## Table of Contents
-- [The High-Level Philosophy](#the-high-level-philosophy)
-- [The Reflection Toolbox (`reflect` package)](#the-reflection-toolbox-reflect-package)
-  - [Good Use Cases for Reflection](#good-use-cases-for-reflection)
-  - [The Dangers of Reflection](#the-dangers-of-reflection)
-  - [Reflection Examples](#reflection-examples)
-- [The Generics Toolbox (Type Parameters)](#the-generics-toolbox-type-parameters)
-  - [Good Use Cases for Generics](#good-use-cases-for-generics)
-  - [The Dangers of Generics](#the-dangers-of-generics)
-  - [Generics Examples](#generics-examples)
-- [Head-to-Head: Generics vs. Reflection](#head-to-head-generics-vs-reflection)
-- [When to Use Which](#when-to-use-which)
-- [Key Takeaways](#key-takeaways)
+- [Reflection \& Generics in Go](#reflection--generics-in-go)
+  - [Table of Contents](#table-of-contents)
+  - [The High-Level Philosophy](#the-high-level-philosophy)
+  - [The Reflection Toolbox (`reflect` package)](#the-reflection-toolbox-reflect-package)
+    - [Good Use Cases for Reflection](#good-use-cases-for-reflection)
+    - [The Dangers of Reflection](#the-dangers-of-reflection)
+    - [Reflection Examples](#reflection-examples)
+  - [The Generics Toolbox (Type Parameters)](#the-generics-toolbox-type-parameters)
+    - [Good Use Cases for Generics](#good-use-cases-for-generics)
+    - [The Dangers of Generics](#the-dangers-of-generics)
+    - [Generics Examples](#generics-examples)
+      - [Generic Function](#generic-function)
+      - [Generic Data Structure](#generic-data-structure)
+      - [Constraints](#constraints)
+  - [Head-to-Head: Generics vs. Reflection](#head-to-head-generics-vs-reflection)
+  - [When to Use Which](#when-to-use-which)
+  - [Key Takeaways](#key-takeaways)
+  - [What's Next](#whats-next)
 
 ## The High-Level Philosophy
 
@@ -221,6 +227,32 @@ func Sum[T Number](values []T) T {
 -   **Generics are for writing type-safe code that operates on multiple, known types at compile time.** They are your first choice for general-purpose data structures and functions.
 -   **Reflection is for working with types that are unknown until run time.** It is powerful but unsafe and slow. Its use should be confined to frameworks, marshalling, and other meta-programming tasks.
 -   **Interfaces are for abstracting over behavior.** If your logic only depends on a few methods, an interface is often the clearest and most flexible solution.
+
+## What's Next
+
+To further your understanding of reflection and generics in Go, here are some recommended resources:
+
+1. **Official Documentation**
+   - [Go Blog: Generics in Go](https://go.dev/blog/intro-generics)
+   - [Go Blog: The Laws of Reflection](https://go.dev/blog/laws-of-reflection)
+   - [Go 1.18 Release Notes (Generics)](https://go.dev/doc/go1.18#generics)
+
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Mastering Go" by Mihalis Tsoukalos
+
+3. **Articles & Blog Posts**
+   - [Generics in Go: The Ultimate Guide](https://blog.devgenius.io/generics-in-go-the-ultimate-guide-2e5e7b3c8b3c)
+   - [Reflection in Go](https://blog.golang.org/laws-of-reflection)
+
+4. **Practice & Tools**
+   - [Go by Example: Generics](https://gobyexample.com/generics)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Type Constraints
+   - Interface vs. Generics
+   - Performance Implications of Reflection and Generics
 
 ---
 

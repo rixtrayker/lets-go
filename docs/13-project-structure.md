@@ -14,6 +14,7 @@
   - [Packages: Layers vs. Features](#packages-layers-vs-features)
   - [A Recommended Structure for a Web Service](#a-recommended-structure-for-a-web-service)
   - [Project Structure Best Practices](#project-structure-best-practices)
+  - [What's Next](#whats-next)
 
 ## The Philosophy of Project Layout
 
@@ -158,6 +159,31 @@ There are two main schools of thought for structuring packages inside `/internal
 3.  **Be Deliberate About `/pkg`:** Don't create a `/pkg` directory unless you intend to share that code as a library for others to import.
 4.  **Keep `main` Packages Small:** The code in `/cmd/app/main.go` should be minimal. It's for setup and wiring, not business logic.
 5.  **Group by Feature, Not Layer:** As your project grows, structuring by feature (e.g., `/internal/user`) is clearer and more scalable than structuring by layer (e.g., `/internal/handlers`).
+
+## What's Next
+
+To further your understanding of Go project structure and architecture, here are some recommended resources:
+
+1. **Official Documentation**
+   - [Standard Go Project Layout](https://github.com/golang-standards/project-layout)
+   - [Effective Go: Packages](https://go.dev/doc/effective_go#packages)
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Go Web Programming" by Sau Sheong Chang
+
+3. **Articles & Blog Posts**
+   - [Practical Go: Real World Advice for Writing Maintainable Go Programs](https://dave.cheney.net/practical-go/presentation)
+   - [How to Structure a Go Project](https://medium.com/@benbjohnson/standard-package-layout-7cdbc8391fc1)
+   - [Clean Architecture](https://github.com/bxcodec/go-clean-arch)
+   - [Domain Driven Design in Go](https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example)
+
+4. **Practice & Tools**
+   - [Go by Example](https://gobyexample.com/)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Dependency Management
+   - Microservices Architecture
 
 ---
 

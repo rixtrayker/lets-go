@@ -17,6 +17,7 @@
   - [Secure Containerization](#secure-containerization)
   - [Secrets Management](#secrets-management)
   - [General Security Best Practices](#general-security-best-practices)
+  - [What's Next](#whats-next)
 
 ## Go's Security Advantages
 
@@ -208,6 +209,34 @@ func connectToDB() (*sql.DB, error) {
 2.  **Validate All Input:** Treat all data from users or external systems as untrusted. Validate it for type, length, format, and range.
 3.  **Limit Request Rates:** Use a middleware to limit the number of requests a client can make in a given time period to prevent brute-force and denial-of-service attacks.
 4.  **Log Security Events:** Log important events like failed login attempts, access denied errors, and changes to sensitive data.
+
+## What's Next
+
+To further your understanding of security in Go, here are some recommended resources:
+
+1. **Official Documentation**
+   - [Go Security Checklist](https://github.com/securego/gosec)
+   - [Go Blog: Secure Coding Practices](https://go.dev/blog/security)
+   - [Go Vulnerability Management](https://go.dev/security/vuln)
+
+2. **Books**
+   - "Black Hat Go" by Tom Steele, Chris Patten, and Dan Kottmann
+   - "Practical Cloud Native Security with Go" by Alex Guerrieri
+
+3. **Articles & Blog Posts**
+   - [Go Security Best Practices](https://blog.golang.org/security)
+   - [GoSec: Security Linter for Go](https://github.com/securego/gosec)
+
+4. **Practice & Tools**
+   - [GoSec Tool](https://github.com/securego/gosec)
+   - [govulncheck](https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Secure Coding Practices
+   - Dependency Security
+   - Container Security
+   - Secrets Management
 
 ---
 

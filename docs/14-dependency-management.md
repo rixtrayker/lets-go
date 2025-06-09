@@ -16,6 +16,7 @@
     - [`go mod vendor`](#go-mod-vendor)
   - [The `replace` Directive: Forks and Local Development](#the-replace-directive-forks-and-local-development)
   - [Best Practices for Dependency Management](#best-practices-for-dependency-management)
+  - [What's Next](#whats-next)
 
 ## Go Modules: The Official Standard
 
@@ -206,6 +207,31 @@ Now, `go get` will use your SSH credentials to fetch private modules.
    ```
    Now, `go mod tidy` won't remove them.
 6.  **Scan for Vulnerabilities:** Regularly run `govulncheck ./...` as part of your CI pipeline to find known security vulnerabilities in your dependency tree.
+
+## What's Next
+
+To further your understanding of dependency management in Go, here are some recommended resources:
+
+1. **Official Documentation**
+   - [Go Modules Reference](https://go.dev/doc/modules/managing-dependencies)
+   - [Go Blog: Using Go Modules](https://go.dev/blog/using-go-modules)
+
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Mastering Go Modules" by John Arundel
+
+3. **Articles & Blog Posts**
+   - [A Guide to Go Modules](https://blog.golang.org/using-go-modules)
+   - [Go Modules: v2 and Beyond](https://blog.golang.org/v2-go-modules)
+
+4. **Practice & Tools**
+   - [Go by Example: Modules](https://gobyexample.com/modules)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Versioning Best Practices
+   - Private Modules
+   - Dependency Security (govulncheck)
 
 ---
 

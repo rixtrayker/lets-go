@@ -429,6 +429,34 @@ A: It provides a way to carry deadlines, cancellation signals, and request-scope
 Q: How do you prevent race conditions in Go?
 A: Use channels for communication, mutexes for shared state, or atomic operations for simple cases.
 
+## What's Next
+
+To further your understanding of concurrency in Go, here are recommended resources:
+
+1. **Official Documentation**
+   - [Go Concurrency Patterns](https://go.dev/doc/effective_go#concurrency)
+   - [Go Blog: Concurrency is not parallelism](https://go.dev/blog/concurrency-is-not-parallelism)
+   - [Go Memory Model](https://go.dev/ref/mem)
+
+2. **Books**
+   - "Concurrency in Go" by Katherine Cox-Buday
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+
+3. **Articles & Blog Posts**
+   - [Go Concurrency Patterns: Pipelines and cancellation](https://blog.golang.org/pipelines)
+   - [Advanced Go Concurrency Patterns](https://blog.golang.org/advanced-go-concurrency-patterns)
+
+4. **Practice & Tools**
+   - [Go by Example: Goroutines](https://gobyexample.com/goroutines)
+   - [Go by Example: Channels](https://gobyexample.com/channels)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Parallelism vs. Concurrency
+   - Synchronization Primitives (Mutex, RWMutex, Atomic)
+   - Deadlocks and Race Conditions
+   - Profiling and Debugging Concurrent Programs
+
 ---
 
 Next: [Common Concurrency Mistakes](05-concurrency-mistakes.md) 

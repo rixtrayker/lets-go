@@ -686,6 +686,34 @@ handler := chainMiddleware(
 - Study [Interfaces & Composition](07-interfaces-composition.md) for advanced interface patterns
 - Learn [Error Handling](09-error-handling.md) for robust error management
 
+## What's Next
+
+To further your understanding of Go functions and methods, here are recommended resources:
+
+1. **Official Documentation**
+   - [Go Functions](https://go.dev/doc/effective_go#functions)
+   - [Go Methods](https://go.dev/doc/effective_go#methods)
+
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Go in Action" by William Kennedy
+
+3. **Articles & Blog Posts**
+   - [Understanding Go Functions](https://blog.golang.org/function-types-in-go)
+   - [Go Method Sets](https://www.ardanlabs.com/blog/2014/05/methods-interfaces-and-embedded-types.html)
+
+4. **Practice & Tools**
+   - [Go by Example](https://gobyexample.com/functions)
+   - [Go Tour](https://tour.golang.org/methods/1)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Function Closures and Scope
+   - Method Sets and Interfaces
+   - Higher-Order Functions
+   - Functional Programming Patterns in Go
+   - Error Handling Patterns
+
 ---
 
 *"Clear is better than clever."* - Go Proverb 

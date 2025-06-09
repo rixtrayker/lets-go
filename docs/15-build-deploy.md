@@ -15,6 +15,7 @@
     - [Configuration via Files](#configuration-via-files)
   - [Graceful Shutdown](#graceful-shutdown)
   - [Deployment Best Practices](#deployment-best-practices)
+  - [What's Next](#whats-next)
 
 ## The `go build` Command
 
@@ -221,6 +222,33 @@ func main() {
 3.  **Implement Graceful Shutdown:** Ensure zero-downtime deployments and prevent data corruption.
 4.  **Add Health Check Endpoints:** Expose a `/healthz` endpoint that orchestrators can use to check if your application is alive and ready to serve traffic.
 5.  **Cross-Compile with Confidence:** Use `GOOS` and `GOARCH` to build for your target environment easily.
+
+## What's Next
+
+To further your understanding of building and deploying Go applications, here are some recommended resources:
+
+1. **Official Documentation**
+   - [Go Build and Install](https://go.dev/doc/go1.16#go-build)
+   - [Go Blog: Deploying Go Apps](https://go.dev/blog/deploying-go)
+   - [Go Modules: Building and Installing](https://go.dev/doc/modules/managing-dependencies#building-and-installing)
+
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Cloud Native Go" by Matthew A. Titmus
+
+3. **Articles & Blog Posts**
+   - [Building Go Applications for Production](https://blog.golang.org/go1.5-build)
+   - [Dockerizing Go Apps](https://docs.docker.com/language/golang/build-images/)
+
+4. **Practice & Tools**
+   - [Go by Example: Build](https://gobyexample.com/hello-world)
+   - [Go Playground](https://play.golang.org/)
+   - [Docker](https://www.docker.com/)
+
+5. **Related Topics to Explore**
+   - Continuous Integration/Continuous Deployment (CI/CD)
+   - Cross-Compilation
+   - Containerization Best Practices
 
 ---
 

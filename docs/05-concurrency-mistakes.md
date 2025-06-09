@@ -629,6 +629,33 @@ func errorHandling() {
 - **Add logging** to trace goroutine lifecycle
 - **Test with high concurrency** to expose race conditions
 
+## What's Next
+
+To further explore concurrency mistakes and advanced concurrency in Go, check out these resources:
+
+1. **Official Documentation**
+   - [Go Blog: Concurrency Patterns](https://go.dev/blog/pipelines)
+   - [Go Memory Model](https://go.dev/ref/mem)
+   - [Go Race Detector](https://go.dev/doc/articles/race_detector)
+
+2. **Books**
+   - "Concurrency in Go" by Katherine Cox-Buday
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+
+3. **Articles & Blog Posts**
+   - [Common Go Concurrency Mistakes](https://medium.com/@cep21/common-go-concurrency-mistakes-and-how-to-avoid-them-4378592c4c44)
+   - [Go: Goroutine Leaks](https://blog.golang.org/goroutine-leaks)
+
+4. **Practice & Tools**
+   - [Go by Example: Goroutines](https://gobyexample.com/goroutines)
+   - [Go by Example: Channels](https://gobyexample.com/channels)
+   - [Go Playground](https://play.golang.org/)
+
+5. **Related Topics to Explore**
+   - Deadlocks and Race Conditions
+   - Profiling and Debugging Concurrent Programs
+   - Advanced Channel Patterns
+
 ---
 
 Next: [Performance & Profiling](06-performance-profiling.md) 

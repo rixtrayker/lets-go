@@ -1,20 +1,23 @@
 # Testing in Go
 
 ## Table of Contents
-- [The Go Philosophy of Testing](#the-go-philosophy-of-testing)
-- [Unit Tests](#unit-tests)
-  - [The Basics: `_test.go` files and `TestXxx`](#the-basics-_testgo-files-and-testxxx)
-  - [Table-Driven Tests](#table-driven-tests)
-  - [Test Coverage](#test-coverage)
-- [Test Doubles: Mocks & Stubs](#test-doubles-mocks--stubs)
-  - [Manual Mocks with Interfaces](#manual-mocks-with-interfaces)
-  - [Mocking Libraries](#mocking-libraries)
-- [Integration Tests](#integration-tests)
-- [Concurrency Testing](#concurrency-testing)
-  - [The Race Detector](#the-race-detector)
-  - [Using `t.Parallel()` for Faster Tests](#using-tparallel-for-faster-tests)
-  - [The `errgroup` Package](#the-errgroup-package)
-- [Best Practices for Testing](#best-practices-for-testing)
+- [Testing in Go](#testing-in-go)
+  - [Table of Contents](#table-of-contents)
+  - [The Go Philosophy of Testing](#the-go-philosophy-of-testing)
+  - [Unit Tests](#unit-tests)
+    - [The Basics: `_test.go` files and `TestXxx`](#the-basics-_testgo-files-and-testxxx)
+    - [Table-Driven Tests](#table-driven-tests)
+    - [Test Coverage](#test-coverage)
+  - [Test Doubles: Mocks \& Stubs](#test-doubles-mocks--stubs)
+    - [Manual Mocks with Interfaces](#manual-mocks-with-interfaces)
+    - [Mocking Libraries](#mocking-libraries)
+  - [Integration Tests](#integration-tests)
+  - [Concurrency Testing](#concurrency-testing)
+    - [The Race Detector](#the-race-detector)
+    - [Using `t.Parallel()` for Faster Tests](#using-tparallel-for-faster-tests)
+    - [The `errgroup` Package](#the-errgroup-package)
+  - [Best Practices for Testing](#best-practices-for-testing)
+  - [What's Next](#whats-next)
 
 ## The Go Philosophy of Testing
 
@@ -272,6 +275,35 @@ The `golang.org/x/sync/errgroup` package is excellent for managing and collectin
 5.  **Write Clear Failure Messages:** A good error message tells you what went wrong, what you got, and what you expected.
 6.  **Separate Unit and Integration Tests:** Use build tags to keep your fast unit tests separate from your slow integration tests.
 7.  **Strive for Readability:** A test should be easy to understand. It's documentation for your code's behavior.
+
+## What's Next
+
+To further your understanding of testing in Go, here are some recommended resources:
+
+1. **Official Documentation**
+   - [Testing in Go](https://go.dev/doc/testing)
+   - [Go Blog: Table-Driven Tests](https://go.dev/blog/table-driven-tests)
+   - [Go Blog: Subtests and Sub-benchmarks](https://go.dev/blog/subtests)
+
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Go Testing Recipes" by Lee Campbell
+
+3. **Articles & Blog Posts**
+   - [Learn Go with Tests](https://quii.gitbook.io/learn-go-with-tests/)
+   - [Test Coverage in Go](https://blog.golang.org/cover)
+
+4. **Practice & Tools**
+   - [Go by Example: Testing](https://gobyexample.com/testing-and-benchmarking)
+   - [Go Playground](https://play.golang.org/)
+   - [Testify](https://github.com/stretchr/testify)
+   - [Gomock](https://github.com/golang/mock)
+
+5. **Related Topics to Explore**
+   - Mocking and Stubbing
+   - Integration Testing
+   - Benchmarking
+   - Test Automation in CI/CD
 
 ---
 

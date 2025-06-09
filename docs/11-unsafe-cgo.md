@@ -33,6 +33,7 @@
     - [4. Memory Management](#4-memory-management)
     - [5. Type Safety](#5-type-safety)
   - [Key Takeaways](#key-takeaways)
+  - [What's Next](#whats-next)
 
 ## A Word of Warning
 
@@ -392,6 +393,32 @@ A: It bypasses Go's type system, allowing direct memory manipulation and type co
 -   **`unsafe`** breaks type and memory safety for fine-grained memory control. Its rules must be followed precisely to avoid confusing the garbage collector.
 -   **`cgo`** bridges Go and C, but requires manual memory management (`C.CString`/`C.free`) and incurs a significant call overhead.
 -   Both tools introduce significant complexity and risk. Avoid them unless the problem cannot be solved with standard, idiomatic Go.
+
+## What's Next
+
+To further your understanding of `unsafe` and `cgo` in Go, here are some recommended resources:
+
+1. **Official Documentation**
+   - [Go Blog: Cgo](https://go.dev/blog/cgo)
+   - [Go Blog: Using the unsafe package](https://go.dev/blog/unsafe-pointer)
+   - [Go Memory Model](https://go.dev/ref/mem)
+
+2. **Books**
+   - "Go Programming Language" by Alan Donovan and Brian Kernighan
+   - "Mastering Go" by Mihalis Tsoukalos
+
+3. **Articles & Blog Posts**
+   - [Cgo: The Go Way to Call C Code](https://blog.golang.org/cgo)
+   - [Unsafe Pointers in Go](https://blog.golang.org/unsafe-pointer)
+
+4. **Practice & Tools**
+   - [Go Playground](https://play.golang.org/) (for safe code)
+   - [Go by Example: Cgo](https://gobyexample.com/cgo)
+
+5. **Related Topics to Explore**
+   - Memory Safety in Go
+   - Interfacing Go with C/C++
+   - Performance Implications of Cgo and Unsafe
 
 ---
 
