@@ -7,13 +7,14 @@
   - [Key Files: `go.mod` and `go.sum`](#key-files-gomod-and-gosum)
     - [The `go.mod` File](#the-gomod-file)
     - [The `go.sum` File](#the-gosum-file)
+  - [How Go Modules Work: Minimal Version Selection](#how-go-modules-work-minimal-version-selection)
   - [Common `go mod` Commands](#common-go-mod-commands)
     - [`go mod init`](#go-mod-init)
     - [`go get`](#go-get)
     - [`go mod tidy`](#go-mod-tidy)
+    - [`go mod why`](#go-mod-why)
     - [`go mod vendor`](#go-mod-vendor)
-  - [Semantic Versioning (SemVer)](#semantic-versioning-semver)
-  - [Working with Private Repositories](#working-with-private-repositories)
+  - [The `replace` Directive: Forks and Local Development](#the-replace-directive-forks-and-local-development)
   - [Best Practices for Dependency Management](#best-practices-for-dependency-management)
 
 ## Go Modules: The Official Standard
@@ -24,6 +25,7 @@ Since Go 1.11, **Go Modules** have been the official and standard way to manage 
 -   **Decentralized:** Dependencies are fetched directly from their source repositories (e.g., GitHub).
 -   **Versioning:** Go Modules use semantic versioning (SemVer) to specify dependency versions.
 -   **Reproducible Builds:** The `go.mod` and `go.sum` files ensure that you get the exact same dependency versions every time you build your project.
+-   **Minimal Version Selection:** A deterministic algorithm for resolving dependency versions.
 -   **Integrated Tooling:** The `go` command has built-in support for working with modules.
 
 ## Key Files: `go.mod` and `go.sum`
@@ -73,6 +75,16 @@ github.com/gin-gonic/gin v1.9.1/go.mod h1:A8B8r2CLA2k2tt+vJfg+4Gg2bKEe+xKa6iQ3A3
 -   Each dependency version has two entries: one for the `.zip` file of its source and one for its `go.mod` file.
 -   You should **always commit your `go.sum` file** to your version control system. This is what guarantees reproducible builds for everyone on your team.
 
+## How Go Modules Work: Minimal Version Selection
+
+Unlike other package managers that might get the latest compatible version of a dependency, Go uses a simpler, more predictable algorithm called **Minimal Version Selection (MVS)**.
+
+**How it works:**
+- If your project requires `A v1.1` and one of your dependencies requires `A v1.2`, Go will select `A v1.2` because it's the *highest* of the required versions.
+- It will **not** automatically upgrade to `A v1.3` if it exists. It selects the *minimal* version that satisfies all requirements.
+
+This makes builds more stable and deterministic. Your build won't suddenly break because a dependency of a dependency released a new, buggy version. You only get new versions when you explicitly ask for them via `go get`.
+
 ## Common `go mod` Commands
 
 You interact with Go Modules through the `go` command.
@@ -115,6 +127,14 @@ You should run `go mod tidy` before committing your code to ensure your module f
 go mod tidy
 ```
 
+### `go mod why`
+
+A diagnostic tool that explains why a particular package is included in the build.
+
+```bash
+go mod why github.com/twitchyliquid64/golang-asm
+```
+
 ### `go mod vendor`
 
 This command creates a `vendor` directory in your project and copies all your dependencies into it. The Go compiler will then use the packages in `vendor` instead of fetching them from the network.
@@ -134,13 +154,22 @@ go build -mod=vendor
 
 For most projects, vendoring is not necessary. The module cache and `go.sum` provide sufficient reliability.
 
-## Semantic Versioning (SemVer)
+## The `replace` Directive: Forks and Local Development
 
-Go Modules are built around SemVer. A version number `vX.Y.Z` has three parts:
+The `replace` directive in `go.mod` allows you to override the location of a dependency. This is extremely useful in two scenarios:
 
--   `X`: **Major version**. Incremented for incompatible API changes.
--   `Y`: **Minor version**. Incremented for new, backwards-compatible functionality.
--   `Z`: **Patch version**. Incremented for backwards-compatible bug fixes.
+1.  **Using a Forked Repo:** If you need to use a forked version of a library with your custom changes.
+2.  **Local Development:** If you are developing two modules simultaneously and need one to use the local, on-disk version of the other, not the one from its remote repository.
+
+**Example `go.mod` with `replace`:**
+```go
+module example.com/my-app
+
+go 1.22
+
+require (
+    github.com/some/dependency v1.2.3
+)
 
 **Special Rule for Major Versions > 1:** If a library releases a `v2` or higher, its module path must be updated to include the major version. For example, `github.com/some/lib/v2`. This allows a project to import `v1` and `v2` of the same library side-by-side if needed.
 
@@ -159,12 +188,11 @@ Now, `go get` will use your SSH credentials to fetch private modules.
 
 ## Best Practices for Dependency Management
 
-1.  **Always Commit `go.mod` and `go.sum`:** This is non-negotiable. It ensures reproducible builds.
+1.  **Always Commit `go.mod` and `go.sum`:** This is non-negotiable. It ensures reproducible and secure builds.
 2.  **Use `go mod tidy`:** Run it before you commit to keep your module files clean.
-3.  **Be Mindful of Your Dependencies:** Don't add a new dependency without considering its impact. Each one adds to your build time, binary size, and attack surface. Does it have a good reputation? Is it well-maintained?
-4.  **Update Dependencies Deliberately:** Don't just update to the latest version of everything without checking. Use `go list -u -m all` to see available updates, and review the changelogs for breaking changes.
-5.  **Use a `tools.go` File:** For build-time tools (like linters or code generators), create a file like `tools.go` to track them as versioned dependencies without polluting your main module.
-
+3.  **Specify Versions:** When adding a new dependency, use a specific, tagged version (`go get lib@v1.2.3`) instead of just `latest`. This prevents surprises.
+4.  **Update Dependencies Deliberately:** Run `go list -u -m all` to see available updates. Don't just `go get -u ./...`. Update one dependency at a time and run your tests to ensure nothing broke.
+5.  **Use a `tools.go` File:** For build-time tools (like linters or code generators), create a file like `tools.go` to track them as versioned dependencies without polluting your main module's dependency graph.
    `tools.go`:
    ```go
    //go:build tools
@@ -177,6 +205,7 @@ Now, `go get` will use your SSH credentials to fetch private modules.
    )
    ```
    Now, `go mod tidy` won't remove them.
+6.  **Scan for Vulnerabilities:** Regularly run `govulncheck ./...` as part of your CI pipeline to find known security vulnerabilities in your dependency tree.
 
 ---
 
