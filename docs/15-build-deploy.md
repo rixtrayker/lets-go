@@ -1,18 +1,20 @@
 # Building and Deploying Go Applications
 
 ## Table of Contents
-- [The `go build` Command](#the-go-build-command)
-  - [Basic Usage](#basic-usage)
-  - [Cross-Compilation](#cross-compilation)
-  - [Optimizing for Size and Performance](#optimizing-for-size-and-performance)
-- [Deployment Strategies](#deployment-strategies)
-  - [Strategy 1: The Single Binary](#strategy-1-the-single-binary)
-  - [Strategy 2: The Minimal Docker Image](#strategy-2-the-minimal-docker-image)
-- [Working with Configuration](#working-with-configuration)
-  - [Configuration via Environment Variables](#configuration-via-environment-variables)
-  - [Configuration via Files](#configuration-via-files)
-- [Graceful Shutdown](#graceful-shutdown)
-- [Deployment Best Practices](#deployment-best-practices)
+- [Building and Deploying Go Applications](#building-and-deploying-go-applications)
+  - [Table of Contents](#table-of-contents)
+  - [The `go build` Command](#the-go-build-command)
+    - [Basic Usage](#basic-usage)
+    - [Cross-Compilation](#cross-compilation)
+    - [Optimizing for Size and Performance](#optimizing-for-size-and-performance)
+  - [Deployment Strategies](#deployment-strategies)
+    - [Strategy 1: The Single Binary](#strategy-1-the-single-binary)
+    - [Strategy 2: The Minimal Docker Image](#strategy-2-the-minimal-docker-image)
+  - [Working with Configuration](#working-with-configuration)
+    - [Configuration via Environment Variables](#configuration-via-environment-variables)
+    - [Configuration via Files](#configuration-via-files)
+  - [Graceful Shutdown](#graceful-shutdown)
+  - [Deployment Best Practices](#deployment-best-practices)
 
 ## The `go build` Command
 
