@@ -4,6 +4,19 @@ Go's concurrency model is built around goroutines and channels, following the pr
 
 > *"Don't communicate by sharing memory; share memory by communicating."*
 
+## Table of Contents
+- [Goroutines: Lightweight Threads](#goroutines-lightweight-threads)
+- [Channels: Communication](#channels-communication)
+- [Common Patterns](#common-patterns)
+- [Select Statement](#select-statement)
+- [Go's Scheduler (GMP Model)](#gos-scheduler-gmp-model)
+- [Synchronization Primitives](#synchronization-primitives)
+- [Best Practices](#best-practices)
+- [Advanced Concurrency Patterns](#advanced-concurrency-patterns)
+- [Debugging Concurrent Code](#debugging-concurrent-code)
+- [Performance Considerations](#performance-considerations)
+- [Common Interview Questions](#common-interview-questions)
+
 ## Goroutines: Lightweight Threads
 
 Goroutines are lightweight threads managed by the Go runtime.
@@ -236,13 +249,185 @@ for _, item := range items {
 }
 ```
 
-## Key Takeaways
+## Advanced Concurrency Patterns
 
-1. **Goroutines are cheap** - use them liberally but responsibly
-2. **Channels for communication** - safer than shared memory
-3. **Close channels in sender** - never in receiver
-4. **Use select for timeouts** and non-blocking operations
-5. **Choose right tool**: channels vs mutexes vs atomic
+### Context Package
+
+The `context` package provides a way to carry deadlines, cancellation signals, and request-scoped values across API boundaries.
+
+```go
+func worker(ctx context.Context, jobs <-chan Job) {
+    for {
+        select {
+        case job := <-jobs:
+            // Process job
+        case <-ctx.Done():
+            return // Context cancelled or timed out
+        }
+    }
+}
+
+// Usage
+ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+defer cancel()
+go worker(ctx, jobs)
+```
+
+### Rate Limiting
+
+```go
+type RateLimiter struct {
+    ticker *time.Ticker
+    done   chan struct{}
+}
+
+func NewRateLimiter(rate time.Duration) *RateLimiter {
+    return &RateLimiter{
+        ticker: time.NewTicker(rate),
+        done:   make(chan struct{}),
+    }
+}
+
+func (r *RateLimiter) Wait() {
+    select {
+    case <-r.ticker.C:
+        return
+    case <-r.done:
+        return
+    }
+}
+```
+
+## Debugging Concurrent Code
+
+### Race Detection
+
+```bash
+go run -race main.go
+```
+
+### Deadlock Detection
+
+```go
+// Add this to your main function
+go func() {
+    time.Sleep(5 * time.Second)
+    fmt.Println("Checking for deadlocks...")
+    buf := make([]byte, 1<<16)
+    runtime.Stack(buf, true)
+    fmt.Printf("%s", buf)
+}()
+```
+
+### Debugging Tools
+
+1. **pprof**: For profiling goroutines
+```go
+import _ "net/http/pprof"
+
+go func() {
+    log.Println(http.ListenAndServe("localhost:6060", nil))
+}()
+```
+
+2. **trace**: For detailed execution tracing
+```go
+f, err := os.Create("trace.out")
+if err != nil {
+    log.Fatal(err)
+}
+defer f.Close()
+err = trace.Start(f)
+if err != nil {
+    log.Fatal(err)
+}
+defer trace.Stop()
+```
+
+## Performance Considerations
+
+### Goroutine Pooling
+
+```go
+type Pool struct {
+    jobs    chan func()
+    workers int
+}
+
+func NewPool(workers int) *Pool {
+    p := &Pool{
+        jobs:    make(chan func()),
+        workers: workers,
+    }
+    p.start()
+    return p
+}
+
+func (p *Pool) start() {
+    for i := 0; i < p.workers; i++ {
+        go func() {
+            for job := range p.jobs {
+                job()
+            }
+        }()
+    }
+}
+```
+
+### Memory Management
+
+1. **Avoid Goroutine Leaks**
+```go
+// Bad
+go func() {
+    // No way to stop this goroutine
+    for {
+        // ...
+    }
+}()
+
+// Good
+go func() {
+    ticker := time.NewTicker(time.Second)
+    defer ticker.Stop()
+    for {
+        select {
+        case <-ticker.C:
+            // ...
+        case <-done:
+            return
+        }
+    }
+}()
+```
+
+2. **Channel Buffer Sizing**
+```go
+// Size buffer based on expected throughput
+ch := make(chan int, 1000)  // Buffer for 1000 items
+```
+
+## Common Interview Questions
+
+### 1. Goroutines vs Threads
+Q: What's the difference between a goroutine and an OS thread?
+A: Goroutines are lightweight (2KB initial stack), managed by Go runtime, and multiplexed onto OS threads.
+
+### 2. Channel Types
+Q: What are the different types of channels in Go?
+A: Unbuffered (synchronous) and buffered (asynchronous) channels.
+
+### 3. Select Statement
+Q: How does the select statement work?
+A: It allows a goroutine to wait on multiple channel operations, executing the first one that's ready.
+
+### 4. Context Package
+Q: What is the context package used for?
+A: It provides a way to carry deadlines, cancellation signals, and request-scoped values across API boundaries.
+
+### 5. Race Conditions
+Q: How do you prevent race conditions in Go?
+A: Use channels for communication, mutexes for shared state, or atomic operations for simple cases.
 
 ---
 
